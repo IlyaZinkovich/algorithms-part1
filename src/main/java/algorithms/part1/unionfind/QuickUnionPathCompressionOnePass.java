@@ -9,7 +9,7 @@ public class QuickUnionPathCompressionOnePass implements UnionFind {
 
   public QuickUnionPathCompressionOnePass(final int N) {
     this.id = IntStream.range(0, N).toArray();
-    this.sz = new int[N];
+    this.sz = IntStream.generate(() -> 1).limit(N).toArray();
   }
 
   @Override

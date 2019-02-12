@@ -1,17 +1,22 @@
-package algorithms.part1.unionfind;
+package algorithms.part1.unionfind.exercises;
 
-import java.util.ArrayList;
-import java.util.List;
+import algorithms.part1.unionfind.UnionFind;
 import java.util.stream.IntStream;
 
-public class QuickUnionPathCompressionTwoPass implements UnionFind {
+public class SocialNetwork implements UnionFind {
 
   private final int[] id;
   private final int[] sz;
+  private int maxConnectivity;
 
-  public QuickUnionPathCompressionTwoPass(final int N) {
+  public SocialNetwork(final int N) {
     this.id = IntStream.range(0, N).toArray();
     this.sz = IntStream.generate(() -> 1).limit(N).toArray();
+    this.maxConnectivity = 0;
+  }
+
+  public boolean isFullyConnected() {
+    return maxConnectivity == id.length;
   }
 
   @Override
@@ -20,13 +25,10 @@ public class QuickUnionPathCompressionTwoPass implements UnionFind {
   }
 
   private int root(int i) {
-    List<Integer> examinedNodes = new ArrayList<>();
     while (id[i] != i) {
-      examinedNodes.add(i);
+      id[i] = id[id[i]];
       i = id[i];
     }
-    final int r = i;
-    examinedNodes.forEach(node -> id[node] = r);
     return i;
   }
 
@@ -39,9 +41,11 @@ public class QuickUnionPathCompressionTwoPass implements UnionFind {
     } else if (sz[i] > sz[j]) {
       id[i] = j;
       sz[j] += sz[i];
+      maxConnectivity = Math.max(maxConnectivity, sz[j]);
     } else {
       id[j] = i;
       sz[i] += sz[j];
+      maxConnectivity = Math.max(maxConnectivity, sz[i]);
     }
   }
 }

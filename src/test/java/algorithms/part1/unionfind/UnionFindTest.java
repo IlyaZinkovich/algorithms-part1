@@ -10,7 +10,7 @@ import org.quicktheories.core.Gen;
 class UnionFindTest {
 
   private static final int N = 1000;
-  private static final Gen<Integer> POINT = integers().between(0, N - 1);
+  private static final Gen<Integer> NODE = integers().between(0, N - 1);
 
   @Test
   void quickFindTest() {
@@ -38,7 +38,7 @@ class UnionFindTest {
   }
 
   private void testUnionFind(final Function<Integer, UnionFind> unionFindConstructor) {
-    qt().forAll(POINT, POINT, POINT).check((p, q, r) -> {
+    qt().forAll(NODE, NODE, NODE).check((p, q, r) -> {
       final UnionFind quickFindUF = unionFindConstructor.apply(N);
       quickFindUF.union(p, q);
       final boolean reflexive = quickFindUF.connected(p, p);
