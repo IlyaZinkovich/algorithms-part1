@@ -1,22 +1,22 @@
-package algorithms.part1.unionfind.exercises;
+package algorithms.part1.unionfind.quiz;
 
 import algorithms.part1.unionfind.UnionFind;
 import java.util.stream.IntStream;
 
-public class SocialNetwork implements UnionFind {
+public class UnionFindCanonicalElement implements UnionFind {
 
   private final int[] id;
   private final int[] sz;
-  private int maxConnectivity;
+  private final int[] max;
 
-  public SocialNetwork(final int N) {
+  public UnionFindCanonicalElement(final int N) {
     this.id = IntStream.range(0, N).toArray();
     this.sz = IntStream.generate(() -> 1).limit(N).toArray();
-    this.maxConnectivity = 0;
+    this.max = IntStream.range(0, N).toArray();
   }
 
-  public boolean isFullyConnected() {
-    return maxConnectivity == id.length;
+  public int find(final int i) {
+    return max[root(i)];
   }
 
   @Override
@@ -41,11 +41,11 @@ public class SocialNetwork implements UnionFind {
     } else if (sz[i] > sz[j]) {
       id[i] = j;
       sz[j] += sz[i];
-      maxConnectivity = Math.max(maxConnectivity, sz[j]);
+      max[j] = Math.max(max[j], max[i]);
     } else {
       id[j] = i;
       sz[i] += sz[j];
-      maxConnectivity = Math.max(maxConnectivity, sz[i]);
+      max[i] = Math.max(max[i], max[j]);
     }
   }
 }

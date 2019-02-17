@@ -1,4 +1,4 @@
-package algorithms.part1.unionfind.exercises;
+package algorithms.part1.unionfind.quiz;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
