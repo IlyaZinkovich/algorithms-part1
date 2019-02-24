@@ -9,9 +9,9 @@ public class Percolation {
   private final boolean[] openedSites;
   private final int n;
   private final WeightedQuickUnionUF quickUnionUF;
-  private int numberOfOpenedSites;
   private final int topNode;
   private final int bottomNode;
+  private int numberOfOpenedSites;
 
   public Percolation(int n) {
     if (n <= 0) {
@@ -23,6 +23,18 @@ public class Percolation {
     this.numberOfOpenedSites = 0;
     this.topNode = n * n + 1;
     this.bottomNode = n * n + 2;
+  }
+
+  public static void main(String[] args) {
+    final int n = 20;
+    final Percolation percolation = new Percolation(n);
+    boolean percolates = false;
+    while (!percolates) {
+      final int number = StdRandom.uniform(1, n * n + 1);
+      percolation.open((int) Math.ceil((double) number / n), number % n + 1);
+      percolates = percolation.percolates();
+    }
+    StdOut.println(percolation.numberOfOpenSites());
   }
 
   public void open(int row, int col) {
@@ -77,17 +89,5 @@ public class Percolation {
 
   public boolean percolates() {
     return quickUnionUF.connected(topNode, bottomNode);
-  }
-
-  public static void main(String[] args) {
-    final int n = 20;
-    final Percolation percolation = new Percolation(n);
-    boolean percolates = false;
-    while (!percolates) {
-      final int number = StdRandom.uniform(1, n * n + 1);
-      percolation.open((int) Math.ceil((double) number / n), number % n + 1);
-      percolates = percolation.percolates();
-    }
-    StdOut.println(percolation.numberOfOpenSites());
   }
 }

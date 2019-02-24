@@ -27,6 +27,16 @@ public class PercolationStats {
     }
   }
 
+  public static void main(String[] args) {
+    final int n = Integer.parseInt(args[0]);
+    final int trials = Integer.parseInt(args[1]);
+    final PercolationStats stats = new PercolationStats(n, trials);
+    StdOut.printf("mean                    = %.16f%n", stats.mean());
+    StdOut.printf("stddev                  = %.16f%n", stats.stddev());
+    StdOut.printf("95%% confidence interval = [%.16f, %.16f]%n",
+        stats.confidenceLo(), stats.confidenceHi());
+  }
+
   public double mean() {
     return StdStats.mean(results);
   }
@@ -41,15 +51,5 @@ public class PercolationStats {
 
   public double confidenceHi() {
     return mean() + (FORMULA_CONSTANT * stddev()) / Math.sqrt(results.length);
-  }
-
-  public static void main(String[] args) {
-    final int n = Integer.parseInt(args[0]);
-    final int trials = Integer.parseInt(args[1]);
-    final PercolationStats stats = new PercolationStats(n, trials);
-    StdOut.printf("mean                    = %.16f%n", stats.mean());
-    StdOut.printf("stddev                  = %.16f%n", stats.stddev());
-    StdOut.printf("95%% confidence interval = [%.16f, %.16f]%n",
-        stats.confidenceLo(), stats.confidenceHi());
   }
 }
